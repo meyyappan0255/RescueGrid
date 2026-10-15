@@ -1,1 +1,2 @@
+-r central_server/requirements.txt
 pytest>=8.0,<9.0
