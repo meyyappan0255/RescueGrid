@@ -1,7 +1,7 @@
 # 🚑 RescueGrid — AI & GPS-Based Smart Ambulance Priority System
 
 **Team RescueGrid** | Road Safety Hackathon  
-M S Ramaneshvar · V Meyyappan · S A Navasakthi · R Roshini · Subhhashree T
+Meyyappan V · Navasakthi S A · Roshini R
 
 ---
 
