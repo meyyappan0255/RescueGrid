@@ -13,6 +13,7 @@
 import asyncio
 import json
 import logging
+import os
 from datetime import datetime, timezone
 from contextlib import asynccontextmanager
 from typing import Annotated
@@ -45,8 +46,23 @@ async def lifespan(app: FastAPI):
 app = FastAPI(title="RescueGrid Central Server", version="1.0.0",
               lifespan=lifespan)
 
-app.add_middleware(CORSMiddleware, allow_origins=["*"],
-                   allow_methods=["*"], allow_headers=["*"])
+# Restrict browser origins by default. Override with a comma-separated list
+# in RESCUEGRID_CORS_ORIGINS. CORS is not API authentication.
+CORS_ALLOW_ORIGINS = [
+    origin.strip()
+    for origin in os.getenv(
+        "RESCUEGRID_CORS_ORIGINS",
+        "http://localhost:8080,http://127.0.0.1:8080,"
+        "http://localhost:5500,http://127.0.0.1:5500",
+    ).split(",")
+    if origin.strip()
+]
+app.add_middleware(
+    CORSMiddleware,
+    allow_origins=CORS_ALLOW_ORIGINS,
+    allow_methods=["GET", "POST"],
+    allow_headers=["Content-Type", "Authorization"],
+)
 
 # ── Singletons ───────────────────────────────────────────────
 # In production, load junction URLs from DB / config file
